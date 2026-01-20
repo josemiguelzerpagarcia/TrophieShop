@@ -1,0 +1,57 @@
+*{
+    color: #0e1d2c;
+}
+nav{
+    display: flex;
+    justify-content: space-around;
+}
+
+input{
+    background-color: #7dbdc7;
+    color: #0e1d2c;
+    border-color: #0e1d2c;
+}
+
+a{
+    text-decoration: none;
+}
+
+h1{
+    text-align: center;
+}
+
+#panel{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: red;
+    gap: 1%;
+}
+.juego {
+    margin: 1%;
+    width: 20%;
+    height: 20vh;
+    background-color: blue;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-end;
+    border-radius: 5%;
+    border: #0e1d2c 2px solid;
+    background-image: url(imagenes/icocno.jpg);
+}
+
+footer{
+    display: flex;
+    justify-content: space-around;
+    background-color: #0e1d2c;
+}
+
+footer p{
+    color: #7dbdc7;
+}
+
+#raul{
+    color: red;
+}
