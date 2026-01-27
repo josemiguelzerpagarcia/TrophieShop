@@ -1,0 +1,14 @@
+{
+    "name": "tu-usuario/trophieshop",
+    "description": "Tracker de logros con monedas virtuales",
+    "require": {
+        "php": "^8.2",
+        "vlucas/phpdotenv": "^5.6",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
