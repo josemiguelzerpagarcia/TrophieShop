@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrophieShop</title>
-    <link rel="icon" type="image/png" href="imagenes/icocno.jpg">
-    <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/png" href="assets/imagenes/icono.png">
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
     <header>
