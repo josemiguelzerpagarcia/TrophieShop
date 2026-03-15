@@ -1,5 +1,5 @@
 {
-    "name": "tu-usuario/trophieshop",
+    "name": "josemiguelzerpagarcia/trophieshop",
     "description": "Tracker de logros con monedas virtuales",
     "require": {
         "php": "^8.2",
