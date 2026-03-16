@@ -27,6 +27,9 @@ public class Usuario {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
+    @Column(nullable = false, length = 255)
+    private String password;
+
     @Column(name = "monedas_acumuladas", nullable = false)
     private Integer monedasAcumuladas = 0;
 
@@ -67,6 +70,14 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getMonedasAcumuladas() {
