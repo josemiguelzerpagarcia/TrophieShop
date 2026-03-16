@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videojuegos - TrophieShop</title>
+    <style>
+        body {
+            font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+            background: #f6f8fb;
+            margin: 0;
+            color: #1f2937;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+        .meta {
+            color: #4b5563;
+            margin-bottom: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        th {
+            background: #f3f4f6;
+        }
+        .empty {
+            padding: 18px;
+            background: #fff8e1;
+            border: 1px solid #fde68a;
+            border-radius: 8px;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Listado de Videojuegos</h1>
+    <p class="meta">Total registrados: <strong th:text="${total}">0</strong></p>
+
+    <div th:if="${#lists.isEmpty(videojuegos)}" class="empty">
+        No hay videojuegos en la base de datos.
+    </div>
+
+    <table th:if="${!#lists.isEmpty(videojuegos)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titulo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="videojuego : ${videojuegos}">
+            <td th:text="${videojuego.id}">1</td>
+            <td th:text="${videojuego.titulo}">Ejemplo</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
