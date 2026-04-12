@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +28,9 @@ public class Videojuego {
     @Column(nullable = false, length = 150)
     private String titulo;
 
+    @Column(name = "steam_app_id")
+    private Long steamAppId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
@@ -35,7 +39,7 @@ public class Videojuego {
     @JoinColumn(name = "plataforma_id", nullable = false)
     private Plataforma plataforma;
 
-    @OneToMany(mappedBy = "videojuego")
+    @OneToMany(mappedBy = "videojuego", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<Logro> logros = new ArrayList<>();
 
@@ -53,6 +57,14 @@ public class Videojuego {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public Long getSteamAppId() {
+        return steamAppId;
+    }
+
+    public void setSteamAppId(Long steamAppId) {
+        this.steamAppId = steamAppId;
     }
 
     public Usuario getUsuario() {

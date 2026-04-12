@@ -35,12 +35,12 @@ public class VideojuegoController {
 
     @PostMapping
     public Videojuego create(@RequestBody VideojuegoRequest request) {
-        return videojuegoService.create(request.titulo(), request.usuarioId(), request.plataformaId());
+        return videojuegoService.create(request.titulo(), request.usuarioId(), request.plataformaId(), request.steamAppId());
     }
 
     @PutMapping("/{id}")
     public Videojuego update(@PathVariable Long id, @RequestBody VideojuegoRequest request) {
-        return videojuegoService.update(id, request.titulo(), request.usuarioId(), request.plataformaId());
+        return videojuegoService.update(id, request.titulo(), request.usuarioId(), request.plataformaId(), request.steamAppId());
     }
 
     @DeleteMapping("/{id}")
@@ -48,6 +48,6 @@ public class VideojuegoController {
         videojuegoService.delete(id);
     }
 
-    public record VideojuegoRequest(String titulo, Long usuarioId, Long plataformaId) {
+    public record VideojuegoRequest(String titulo, Long usuarioId, Long plataformaId, Long steamAppId) {
     }
 }

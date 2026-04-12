@@ -4,6 +4,7 @@ import com.trophieshop.trophieshop.entity.Usuario;
 import com.trophieshop.trophieshop.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -33,6 +34,9 @@ public class UsuarioService {
         if (usuario.getMonedasAcumuladas() == null) {
             usuario.setMonedasAcumuladas(0);
         }
+        if (usuario.getRol() == null || usuario.getRol().isBlank()) {
+            usuario.setRol("USER");
+        }
         return usuarioRepository.save(usuario);
     }
 
@@ -43,11 +47,16 @@ public class UsuarioService {
         if (data.getMonedasAcumuladas() != null) {
             usuario.setMonedasAcumuladas(data.getMonedasAcumuladas());
         }
+        if (data.getRol() != null && !data.getRol().isBlank()) {
+            usuario.setRol(data.getRol());
+        }
         return usuarioRepository.save(usuario);
     }
 
+    @Transactional
     public void delete(Long id) {
         Usuario usuario = findById(id);
+
         usuarioRepository.delete(usuario);
     }
 }

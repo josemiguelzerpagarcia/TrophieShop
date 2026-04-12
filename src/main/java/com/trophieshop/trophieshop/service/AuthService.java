@@ -35,6 +35,7 @@ public class AuthService {
         usuario.setEmail(email);
         usuario.setPassword(password);
         usuario.setMonedasAcumuladas(0);
+        usuario.setRol("USER");
 
         return usuarioRepository.save(usuario);
     }
@@ -47,5 +48,9 @@ public class AuthService {
         }
 
         return Optional.empty();
+    }
+
+    public Optional<Usuario> findById(Long id) {
+        return usuarioRepository.findById(id);
     }
 }

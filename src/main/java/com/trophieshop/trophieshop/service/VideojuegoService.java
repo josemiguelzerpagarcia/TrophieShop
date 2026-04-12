@@ -36,7 +36,7 @@ public class VideojuegoService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Videojuego no encontrado"));
     }
 
-    public Videojuego create(String titulo, Long usuarioId, Long plataformaId) {
+        public Videojuego create(String titulo, Long usuarioId, Long plataformaId, Long steamAppId) {
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
         Plataforma plataforma = plataformaRepository.findById(plataformaId)
@@ -46,10 +46,11 @@ public class VideojuegoService {
         videojuego.setTitulo(titulo);
         videojuego.setUsuario(usuario);
         videojuego.setPlataforma(plataforma);
+        videojuego.setSteamAppId(steamAppId);
         return videojuegoRepository.save(videojuego);
     }
 
-    public Videojuego update(Long id, String titulo, Long usuarioId, Long plataformaId) {
+    public Videojuego update(Long id, String titulo, Long usuarioId, Long plataformaId, Long steamAppId) {
         Videojuego videojuego = findById(id);
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
@@ -59,6 +60,7 @@ public class VideojuegoService {
         videojuego.setTitulo(titulo);
         videojuego.setUsuario(usuario);
         videojuego.setPlataforma(plataforma);
+        videojuego.setSteamAppId(steamAppId);
         return videojuegoRepository.save(videojuego);
     }
 

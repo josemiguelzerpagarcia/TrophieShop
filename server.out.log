@@ -1,0 +1,440 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.trophieshop:trophieshop >---------------------
+[INFO] Building trophieshop 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.3:run (default-cli) > test-compile @ trophieshop >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ trophieshop ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 7 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ trophieshop ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ trophieshop ---
+[INFO] skip non existing resourceDirectory C:\Users\Minino\Documents\2DAW\jesus\TrophieShop\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ trophieshop ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:4.0.3:run (default-cli) < test-compile @ trophieshop <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.3:run (default-cli) @ trophieshop ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.3)
+
+2026-04-12T23:48:00.012+02:00  INFO 4728 --- [trophieshop] [           main] c.t.trophieshop.TrophieshopApplication   : Starting TrophieshopApplication using Java 21.0.10 with PID 4728 (C:\Users\Minino\Documents\2DAW\jesus\TrophieShop\target\classes started by Minino in C:\Users\Minino\Documents\2DAW\jesus\TrophieShop)
+2026-04-12T23:48:00.016+02:00  INFO 4728 --- [trophieshop] [           main] c.t.trophieshop.TrophieshopApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-04-12T23:48:00.423+02:00  INFO 4728 --- [trophieshop] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-12T23:48:00.470+02:00  INFO 4728 --- [trophieshop] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 41 ms. Found 8 JPA repository interfaces.
+2026-04-12T23:48:00.799+02:00  INFO 4728 --- [trophieshop] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8989 (http)
+2026-04-12T23:48:00.809+02:00  INFO 4728 --- [trophieshop] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-12T23:48:00.809+02:00  INFO 4728 --- [trophieshop] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-04-12T23:48:00.849+02:00  INFO 4728 --- [trophieshop] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 800 ms
+2026-04-12T23:48:00.952+02:00  INFO 4728 --- [trophieshop] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-12T23:48:00.991+02:00  INFO 4728 --- [trophieshop] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-04-12T23:48:01.323+02:00  INFO 4728 --- [trophieshop] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-12T23:48:01.347+02:00  INFO 4728 --- [trophieshop] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-12T23:48:01.457+02:00  INFO 4728 --- [trophieshop] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5f20b6fe
+2026-04-12T23:48:01.458+02:00  INFO 4728 --- [trophieshop] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-12T23:48:01.495+02:00  WARN 4728 --- [trophieshop] [           main] org.hibernate.orm.core                   : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly.The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2026-04-12T23:48:01.509+02:00  INFO 4728 --- [trophieshop] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/trophieshop?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 5.5.5
+	Default catalog/schema: trophieshop/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-12T23:48:02.233+02:00  INFO 4728 --- [trophieshop] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-12T23:48:02.236+02:00  INFO 4728 --- [trophieshop] [           main] org.hibernate.orm.jdbc.batch             : HHH100501: Automatic JDBC statement batching enabled (maximum batch size 20)
+2026-04-12T23:48:02.249+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table canjes 
+       drop 
+       foreign key FKchoniqxx75ebx5p3f6qcw8dr6
+2026-04-12T23:48:02.256+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table canjes 
+       drop 
+       foreign key FK7wpqf8e3a0plpbww65svpbdpx
+2026-04-12T23:48:02.259+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table logros 
+       drop 
+       foreign key FKc9tliwa8t9huarn4gk09fd1wr
+2026-04-12T23:48:02.263+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table logros_desbloqueados 
+       drop 
+       foreign key FK3bf1lgu3b53pbowkjrsukb6rb
+2026-04-12T23:48:02.265+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table logros_desbloqueados 
+       drop 
+       foreign key FKk84rjqq5t7nqe02nu44ptt29c
+2026-04-12T23:48:02.268+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table steam_logros_otorgados 
+       drop 
+       foreign key FKepnfbdvqxmp26ujngc92llbne
+2026-04-12T23:48:02.271+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table videojuegos 
+       drop 
+       foreign key FKlm0rvm9v1l8txod50a17ognsh
+2026-04-12T23:48:02.274+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table videojuegos 
+       drop 
+       foreign key FKm50amkgw5vhdcnwfeav07prgh
+2026-04-12T23:48:02.276+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    drop table if exists canjes
+2026-04-12T23:48:02.282+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    drop table if exists logros
+2026-04-12T23:48:02.285+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    drop table if exists logros_desbloqueados
+2026-04-12T23:48:02.288+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    drop table if exists plataformas
+2026-04-12T23:48:02.290+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    drop table if exists productos_merchandising
+2026-04-12T23:48:02.293+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    drop table if exists steam_logros_otorgados
+2026-04-12T23:48:02.296+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    drop table if exists usuarios
+2026-04-12T23:48:02.300+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    drop table if exists videojuegos
+2026-04-12T23:48:02.307+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    create table canjes (
+        cantidad integer not null,
+        total_monedas integer not null,
+        fecha_canje datetime(6) not null,
+        id bigint not null auto_increment,
+        producto_id bigint not null,
+        usuario_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+2026-04-12T23:48:02.313+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    create table logros (
+        valor_monedas integer not null,
+        id bigint not null auto_increment,
+        videojuego_id bigint not null,
+        nombre varchar(150) not null,
+        descripcion varchar(400),
+        tipo enum ('APLICACION','PLATAFORMA') not null,
+        primary key (id)
+    ) engine=InnoDB
+2026-04-12T23:48:02.316+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    create table logros_desbloqueados (
+        monedas_otorgadas integer not null,
+        fecha_desbloqueo datetime(6) not null,
+        id bigint not null auto_increment,
+        logro_id bigint not null,
+        usuario_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+2026-04-12T23:48:02.325+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    create table plataformas (
+        id bigint not null auto_increment,
+        nombre varchar(80) not null,
+        primary key (id)
+    ) engine=InnoDB
+2026-04-12T23:48:02.331+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    create table productos_merchandising (
+        costo_monedas integer not null,
+        stock integer not null,
+        id bigint not null auto_increment,
+        nombre varchar(150) not null,
+        descripcion varchar(500),
+        primary key (id)
+    ) engine=InnoDB
+2026-04-12T23:48:02.335+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    create table steam_logros_otorgados (
+        puntos_otorgados integer not null,
+        rarity_percent float(53) not null,
+        app_id bigint not null,
+        fecha_otorgado datetime(6) not null,
+        id bigint not null auto_increment,
+        usuario_id bigint not null,
+        rarity_type varchar(20) not null,
+        achievement_api_name varchar(200) not null,
+        achievement_display_name varchar(200),
+        game_name varchar(200) not null,
+        primary key (id)
+    ) engine=InnoDB
+2026-04-12T23:48:02.339+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    create table usuarios (
+        monedas_acumuladas integer not null,
+        fecha_registro datetime(6) not null,
+        id bigint not null auto_increment,
+        rol varchar(20) default 'USER' not null,
+        steam_id varchar(30),
+        nombre varchar(100) not null,
+        steam_persona_name varchar(120),
+        email varchar(150) not null,
+        password varchar(255) not null,
+        primary key (id)
+    ) engine=InnoDB
+2026-04-12T23:48:02.349+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    create table videojuegos (
+        id_videojuego bigint not null auto_increment,
+        plataforma_id bigint not null,
+        steam_app_id bigint,
+        usuario_id bigint not null,
+        titulo varchar(150) not null,
+        primary key (id_videojuego)
+    ) engine=InnoDB
+2026-04-12T23:48:02.353+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table plataformas 
+       add constraint UKl7wcssoaynrwl6us9djrflkm6 unique (nombre)
+2026-04-12T23:48:02.360+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table steam_logros_otorgados 
+       add constraint uk_usuario_app_achievement unique (usuario_id, app_id, achievement_api_name)
+2026-04-12T23:48:02.367+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table usuarios 
+       add constraint UK8g4olqbucomo470b7hc5wdwh4 unique (steam_id)
+2026-04-12T23:48:02.372+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table usuarios 
+       add constraint UKkfsp0s1tflm1cwlj8idhqsad0 unique (email)
+2026-04-12T23:48:02.376+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table canjes 
+       add constraint FKchoniqxx75ebx5p3f6qcw8dr6 
+       foreign key (producto_id) 
+       references productos_merchandising (id)
+2026-04-12T23:48:02.397+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table canjes 
+       add constraint FK7wpqf8e3a0plpbww65svpbdpx 
+       foreign key (usuario_id) 
+       references usuarios (id)
+2026-04-12T23:48:02.418+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table logros 
+       add constraint FKc9tliwa8t9huarn4gk09fd1wr 
+       foreign key (videojuego_id) 
+       references videojuegos (id_videojuego)
+2026-04-12T23:48:02.441+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table logros_desbloqueados 
+       add constraint FK3bf1lgu3b53pbowkjrsukb6rb 
+       foreign key (logro_id) 
+       references logros (id)
+2026-04-12T23:48:02.460+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table logros_desbloqueados 
+       add constraint FKk84rjqq5t7nqe02nu44ptt29c 
+       foreign key (usuario_id) 
+       references usuarios (id)
+2026-04-12T23:48:02.481+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table steam_logros_otorgados 
+       add constraint FKepnfbdvqxmp26ujngc92llbne 
+       foreign key (usuario_id) 
+       references usuarios (id)
+2026-04-12T23:48:02.502+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table videojuegos 
+       add constraint FKlm0rvm9v1l8txod50a17ognsh 
+       foreign key (plataforma_id) 
+       references plataformas (id)
+2026-04-12T23:48:02.519+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    alter table videojuegos 
+       add constraint FKm50amkgw5vhdcnwfeav07prgh 
+       foreign key (usuario_id) 
+       references usuarios (id)
+2026-04-12T23:48:02.538+02:00  INFO 4728 --- [trophieshop] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-12T23:48:02.589+02:00  INFO 4728 --- [trophieshop] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-12T23:48:02.920+02:00  WARN 4728 --- [trophieshop] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-12T23:48:03.145+02:00  INFO 4728 --- [trophieshop] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8989 (http) with context path '/'
+2026-04-12T23:48:03.149+02:00  INFO 4728 --- [trophieshop] [           main] c.t.trophieshop.TrophieshopApplication   : Started TrophieshopApplication in 3.429 seconds (process running for 3.714)
+? Conexión a la base de datos establecida correctamente
+2026-04-12T23:48:03.400+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        usuarios u1_0
+2026-04-12T23:48:03.433+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        usuarios
+        (email, fecha_registro, monedas_acumuladas, nombre, password, rol, steam_id, steam_persona_name) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2026-04-12T23:48:03.442+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        usuarios
+        (email, fecha_registro, monedas_acumuladas, nombre, password, rol, steam_id, steam_persona_name) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2026-04-12T23:48:03.444+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        usuarios
+        (email, fecha_registro, monedas_acumuladas, nombre, password, rol, steam_id, steam_persona_name) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2026-04-12T23:48:03.453+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        plataformas
+        (nombre) 
+    values
+        (?)
+2026-04-12T23:48:03.454+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        plataformas
+        (nombre) 
+    values
+        (?)
+2026-04-12T23:48:03.455+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        plataformas
+        (nombre) 
+    values
+        (?)
+2026-04-12T23:48:03.458+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        productos_merchandising
+        (costo_monedas, descripcion, nombre, stock) 
+    values
+        (?, ?, ?, ?)
+2026-04-12T23:48:03.459+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        productos_merchandising
+        (costo_monedas, descripcion, nombre, stock) 
+    values
+        (?, ?, ?, ?)
+2026-04-12T23:48:03.460+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        productos_merchandising
+        (costo_monedas, descripcion, nombre, stock) 
+    values
+        (?, ?, ?, ?)
+2026-04-12T23:48:03.463+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        videojuegos
+        (plataforma_id, steam_app_id, titulo, usuario_id) 
+    values
+        (?, ?, ?, ?)
+2026-04-12T23:48:03.464+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        videojuegos
+        (plataforma_id, steam_app_id, titulo, usuario_id) 
+    values
+        (?, ?, ?, ?)
+2026-04-12T23:48:03.465+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        videojuegos
+        (plataforma_id, steam_app_id, titulo, usuario_id) 
+    values
+        (?, ?, ?, ?)
+2026-04-12T23:48:03.468+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        logros
+        (descripcion, nombre, tipo, valor_monedas, videojuego_id) 
+    values
+        (?, ?, ?, ?, ?)
+2026-04-12T23:48:03.469+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        logros
+        (descripcion, nombre, tipo, valor_monedas, videojuego_id) 
+    values
+        (?, ?, ?, ?, ?)
+2026-04-12T23:48:03.470+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        logros
+        (descripcion, nombre, tipo, valor_monedas, videojuego_id) 
+    values
+        (?, ?, ?, ?, ?)
+2026-04-12T23:48:03.473+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        logros_desbloqueados
+        (fecha_desbloqueo, logro_id, monedas_otorgadas, usuario_id) 
+    values
+        (?, ?, ?, ?)
+2026-04-12T23:48:03.474+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        logros_desbloqueados
+        (fecha_desbloqueo, logro_id, monedas_otorgadas, usuario_id) 
+    values
+        (?, ?, ?, ?)
+2026-04-12T23:48:03.477+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        canjes
+        (cantidad, fecha_canje, producto_id, total_monedas, usuario_id) 
+    values
+        (?, ?, ?, ?, ?)
+2026-04-12T23:48:03.479+02:00 DEBUG 4728 --- [trophieshop] [           main] org.hibernate.SQL                        : 
+    insert 
+    into
+        canjes
+        (cantidad, fecha_canje, producto_id, total_monedas, usuario_id) 
+    values
+        (?, ?, ?, ?, ?)
+? Seed inicial creado correctamente
+  - Admin: admin@trophieshop.com / admin1234
+  - User: user@trophieshop.com / user1234
+2026-04-12T23:48:20.786+02:00  INFO 4728 --- [trophieshop] [nio-8989-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-12T23:48:20.787+02:00  INFO 4728 --- [trophieshop] [nio-8989-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-12T23:48:20.788+02:00  INFO 4728 --- [trophieshop] [nio-8989-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-04-12T23:48:20.816+02:00 DEBUG 4728 --- [trophieshop] [nio-8989-exec-1] org.hibernate.SQL                        : 
+    select
+        pm1_0.id,
+        pm1_0.costo_monedas,
+        pm1_0.descripcion,
+        pm1_0.nombre,
+        pm1_0.stock 
+    from
+        productos_merchandising pm1_0
+2026-04-12T23:48:27.469+02:00 DEBUG 4728 --- [trophieshop] [nio-8989-exec-2] org.hibernate.SQL                        : 
+    select
+        pm1_0.id,
+        pm1_0.costo_monedas,
+        pm1_0.descripcion,
+        pm1_0.nombre,
+        pm1_0.stock 
+    from
+        productos_merchandising pm1_0 
+    where
+        pm1_0.id=?
+2026-04-12T23:48:27.472+02:00 DEBUG 4728 --- [trophieshop] [nio-8989-exec-2] org.hibernate.SQL                        : 
+    select
+        c1_0.producto_id,
+        c1_0.id,
+        c1_0.cantidad,
+        c1_0.fecha_canje,
+        c1_0.total_monedas,
+        c1_0.usuario_id 
+    from
+        canjes c1_0 
+    where
+        c1_0.producto_id=?
+2026-04-12T23:48:27.482+02:00 DEBUG 4728 --- [trophieshop] [nio-8989-exec-2] org.hibernate.SQL                        : 
+    delete 
+    from
+        canjes 
+    where
+        id=?
+2026-04-12T23:48:27.487+02:00 DEBUG 4728 --- [trophieshop] [nio-8989-exec-2] org.hibernate.SQL                        : 
+    delete 
+    from
+        productos_merchandising 
+    where
+        id=?

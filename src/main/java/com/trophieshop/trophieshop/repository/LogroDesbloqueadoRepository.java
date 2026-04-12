@@ -8,4 +8,7 @@ import java.util.List;
 public interface LogroDesbloqueadoRepository extends JpaRepository<LogroDesbloqueado, Long> {
     List<LogroDesbloqueado> findByUsuarioId(Long usuarioId);
     List<LogroDesbloqueado> findByLogroId(Long logroId);
+    void deleteByUsuarioId(Long usuarioId);
+    void deleteByLogroId(Long logroId);
+    boolean existsByUsuarioIdAndLogroId(Long usuarioId, Long logroId);
 }

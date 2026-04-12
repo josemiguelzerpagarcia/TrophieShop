@@ -1,6 +1,7 @@
 package com.trophieshop.trophieshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class ProductoMerchandising {
     @Column(name = "costo_monedas", nullable = false)
     private Integer costoMonedas;
 
-    @OneToMany(mappedBy = "producto")
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<Canje> canjes = new ArrayList<>();
 

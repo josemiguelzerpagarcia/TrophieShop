@@ -1,6 +1,7 @@
 package com.trophieshop.trophieshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Plataforma {
     @Column(nullable = false, unique = true, length = 80)
     private String nombre;
 
-    @OneToMany(mappedBy = "plataforma")
+    @OneToMany(mappedBy = "plataforma", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<Videojuego> videojuegos = new ArrayList<>();
 

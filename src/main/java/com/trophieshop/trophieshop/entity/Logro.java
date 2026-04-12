@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,7 +44,7 @@ public class Logro {
     @JoinColumn(name = "videojuego_id", nullable = false)
     private Videojuego videojuego;
 
-    @OneToMany(mappedBy = "logro")
+    @OneToMany(mappedBy = "logro", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<LogroDesbloqueado> desbloqueos = new ArrayList<>();
 

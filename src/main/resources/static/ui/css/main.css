@@ -1,0 +1,216 @@
+:root {
+  --c-dark: #011526;
+  --c-deep: #123859;
+  --c-accent: #08a696;
+  --c-soft: #b8eaeb;
+  --c-light: #f2f2f2;
+  --bg-1: var(--c-light);
+  --bg-2: #d7ecef;
+  --ink: var(--c-dark);
+  --muted: #30506d;
+  --line: #97ced0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 500px at 10% -10%, #b8eaeb 0%, transparent 60%),
+    radial-gradient(1000px 500px at 100% 0%, #08a69633 0%, transparent 45%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+.topbar {
+  border-bottom: 1px solid var(--line);
+  background: rgba(242, 242, 242, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.navbar-brand {
+  letter-spacing: 0.03em;
+}
+
+.nav-link {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: var(--c-accent);
+}
+
+.hero {
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, #f2f2f2 0%, #b8eaeb 55%, #f2f2f2 100%);
+}
+
+.stat-panel {
+  border: 1px solid var(--line);
+  background: #f2f2f2;
+}
+
+.kpi-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: #f2f2f2;
+}
+
+.kpi-card span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.kpi-card strong {
+  font-size: 1.15rem;
+}
+
+.product-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.09);
+}
+
+.product-image {
+  height: 210px;
+  object-fit: cover;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid var(--line);
+}
+
+.achievement-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 0.8rem;
+  background: #b8eaeb;
+  border: 1px solid #08a69666;
+  display: grid;
+  place-items: center;
+}
+
+.badge-soft {
+  background: #b8eaeb;
+  color: #011526;
+}
+
+.card,
+.list-group-item,
+.table,
+.form-control,
+.form-select {
+  border-color: var(--line) !important;
+}
+
+.btn-dark {
+  background: #123859;
+  border-color: #123859;
+}
+
+.btn-dark:hover {
+  background: #011526;
+  border-color: #011526;
+}
+
+.btn-primary {
+  background: #08a696;
+  border-color: #08a696;
+  color: #011526;
+  font-weight: 600;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: #068477;
+  border-color: #068477;
+  color: #f2f2f2;
+}
+
+.btn-outline-primary {
+  border-color: #123859;
+  color: #123859;
+}
+
+.btn-outline-primary:hover {
+  background: #123859;
+  border-color: #123859;
+  color: #f2f2f2;
+}
+
+footer {
+  border-top: 1px solid var(--line);
+}
+
+.steam-library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.steam-game-card {
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(1, 21, 38, 0.08);
+}
+
+.steam-game-image {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  background: #e8f4f4;
+  border-bottom: 1px solid var(--line);
+}
+
+.steam-game-body {
+  padding: 0.9rem;
+}
+
+.steam-points-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.steam-achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-height: 240px;
+  overflow: auto;
+  padding-right: 0.2rem;
+}
+
+.steam-achievement-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  padding: 0.5rem 0.6rem;
+  background: #f8fefe;
+}
+
+.steam-achievement-points {
+  white-space: nowrap;
+  font-weight: 700;
+  color: var(--c-deep);
+}

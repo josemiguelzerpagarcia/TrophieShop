@@ -8,5 +8,7 @@ import java.util.List;
 
 public interface LogroRepository extends JpaRepository<Logro, Long> {
     List<Logro> findByVideojuegoId(Long videojuegoId);
+    List<Logro> findByVideojuegoIdOrderByIdAsc(Long videojuegoId);
     List<Logro> findByTipo(TipoLogro tipo);
+    void deleteByVideojuegoId(Long videojuegoId);
 }

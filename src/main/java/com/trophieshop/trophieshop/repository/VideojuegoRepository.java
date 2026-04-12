@@ -8,4 +8,6 @@ import java.util.List;
 public interface VideojuegoRepository extends JpaRepository<Videojuego, Long> {
     List<Videojuego> findByUsuarioId(Long usuarioId);
     List<Videojuego> findByPlataformaId(Long plataformaId);
+    List<Videojuego> findBySteamAppIdIn(List<Long> steamAppIds);
+    void deleteByUsuarioId(Long usuarioId);
 }
