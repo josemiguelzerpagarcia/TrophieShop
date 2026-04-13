@@ -252,7 +252,8 @@ document.addEventListener("submit", async (event) => {
   if (adminForm) {
     event.preventDefault();
     const resource = adminForm.dataset.resource;
-    const id = adminForm.dataset.id;
+    const rawId = adminForm.dataset.id;
+    const id = rawId && rawId !== "-" ? rawId : "";
     const form = new FormData(adminForm);
 
     try {

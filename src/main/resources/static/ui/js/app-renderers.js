@@ -439,7 +439,7 @@ export function renderAdminUsuarios() {
     `
       <div class="row g-4">
         <div class="col-lg-4">
-          <form class="card border-0 shadow-sm p-3" id="adminUsuariosForm" data-resource="usuarios" data-id="${safe(editing?.id || "")}">
+          <form class="card border-0 shadow-sm p-3" id="adminUsuariosForm" data-resource="usuarios" data-id="${editing?.id ?? ""}">
             <h3 class="h6">${editing ? "Editar usuario" : "Nuevo usuario"}</h3>
             <label class="form-label mt-2">Nombre</label>
             <input class="form-control" name="nombre" value="${safe(editing?.nombre, "")}" required>
@@ -478,7 +478,7 @@ export function renderAdminProductos() {
     `
       <div class="row g-4">
         <div class="col-lg-4">
-          <form class="card border-0 shadow-sm p-3" id="adminProductosForm" data-resource="productos" data-id="${safe(editing?.id || "")}">
+          <form class="card border-0 shadow-sm p-3" id="adminProductosForm" data-resource="productos" data-id="${editing?.id ?? ""}">
             <h3 class="h6">${editing ? "Editar producto" : "Nuevo producto"}</h3>
             <label class="form-label mt-2">Nombre</label>
             <input class="form-control" name="nombre" value="${safe(editing?.nombre, "")}" required>
@@ -506,7 +506,7 @@ export function renderAdminVideojuegos() {
     `
       <div class="row g-4">
         <div class="col-lg-4">
-          <form class="card border-0 shadow-sm p-3" id="adminVideojuegosForm" data-resource="videojuegos" data-id="${safe(editing?.id || "")}">
+          <form class="card border-0 shadow-sm p-3" id="adminVideojuegosForm" data-resource="videojuegos" data-id="${editing?.id ?? ""}">
             <h3 class="h6">${editing ? "Editar videojuego" : "Nuevo videojuego"}</h3>
             <label class="form-label mt-2">Titulo</label>
             <input class="form-control" name="titulo" value="${safe(editing?.titulo, "")}" required>
@@ -540,7 +540,7 @@ export function renderAdminLogros() {
     `
       <div class="row g-4">
         <div class="col-lg-4">
-          <form class="card border-0 shadow-sm p-3" id="adminLogrosForm" data-resource="logros" data-id="${safe(editing?.id || "")}">
+          <form class="card border-0 shadow-sm p-3" id="adminLogrosForm" data-resource="logros" data-id="${editing?.id ?? ""}">
             <h3 class="h6">${editing ? "Editar logro" : "Nuevo logro"}</h3>
             <label class="form-label mt-2">Nombre</label>
             <input class="form-control" name="nombre" value="${safe(editing?.nombre, "")}" required>
@@ -612,7 +612,7 @@ export function renderAdminPlataformas() {
     `
       <div class="row g-4">
         <div class="col-lg-4">
-          <form class="card border-0 shadow-sm p-3" id="adminPlataformasForm" data-resource="plataformas" data-id="${safe(editing?.id || "")}">
+          <form class="card border-0 shadow-sm p-3" id="adminPlataformasForm" data-resource="plataformas" data-id="${editing?.id ?? ""}">
             <h3 class="h6">${editing ? "Editar plataforma" : "Nueva plataforma"}</h3>
             <label class="form-label mt-2">Nombre</label>
             <input class="form-control" name="nombre" value="${safe(editing?.nombre, "")}" required>
