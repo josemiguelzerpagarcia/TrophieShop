@@ -61,55 +61,85 @@ public class SteamController {
     @GetMapping("/me")
     @ResponseBody
     public ResponseEntity<?> me(HttpSession session) {
-        Object steamId = session.getAttribute("steamId");
-        if (steamId == null) {
-            Object userSteam = session.getAttribute("usuarioId");
-            if (userSteam == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "No autenticado"));
+        try {
+            Object steamId = session.getAttribute("steamId");
+            if (steamId == null) {
+                Object userSteam = session.getAttribute("usuarioId");
+                if (userSteam == null) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "No autenticado"));
+                }
             }
-        }
 
-        Object sessionSteam = session.getAttribute("steamId");
-        if (sessionSteam == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Usuario sin cuenta Steam vinculada en sesion"));
-        }
+            Object sessionSteam = session.getAttribute("steamId");
+            if (sessionSteam == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Usuario sin cuenta Steam vinculada en sesion"));
+            }
 
-        return ResponseEntity.ok(steamService.getSteamProfile(String.valueOf(sessionSteam)));
+            return ResponseEntity.ok(steamService.getSteamProfile(String.valueOf(sessionSteam)));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(Map.of("error", String.valueOf(e.getReason())));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error inesperado al obtener perfil de Steam"));
+        }
     }
 
     @GetMapping("/owned-games")
     @ResponseBody
     public ResponseEntity<?> ownedGames(HttpSession session) {
-        String steamId = requireSteamSession(session);
-        return ResponseEntity.ok(steamService.getOwnedGames(steamId));
+        try {
+            String steamId = requireSteamSession(session);
+            return ResponseEntity.ok(steamService.getOwnedGames(steamId));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(Map.of("error", String.valueOf(e.getReason())));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error inesperado al obtener juegos de Steam"));
+        }
     }
 
     @GetMapping("/library")
     @ResponseBody
     public ResponseEntity<?> library(HttpSession session) {
-        String steamId = requireSteamSession(session);
-        return ResponseEntity.ok(steamService.getOwnedGamesWithUnlockedAchievements(steamId));
+        try {
+            String steamId = requireSteamSession(session);
+            return ResponseEntity.ok(steamService.getOwnedGamesWithUnlockedAchievements(steamId));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(Map.of("error", String.valueOf(e.getReason())));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error inesperado al obtener biblioteca de Steam"));
+        }
     }
 
     @GetMapping("/achievements/{appId}")
     @ResponseBody
     public ResponseEntity<?> achievements(HttpSession session, @org.springframework.web.bind.annotation.PathVariable long appId) {
-        String steamId = requireSteamSession(session);
-        return ResponseEntity.ok(steamService.getPlayerAchievementsSummary(steamId, appId));
+        try {
+            String steamId = requireSteamSession(session);
+            return ResponseEntity.ok(steamService.getPlayerAchievementsSummary(steamId, appId));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(Map.of("error", String.valueOf(e.getReason())));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error inesperado al obtener logros de Steam"));
+        }
     }
 
     @PostMapping("/sync")
     @ResponseBody
     public ResponseEntity<?> sync(HttpSession session) {
-        Object usuarioId = session.getAttribute("usuarioId");
-        if (usuarioId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "No autenticado"));
+        try {
+            Object usuarioId = session.getAttribute("usuarioId");
+            if (usuarioId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "No autenticado"));
+            }
+
+            String steamId = requireSteamSession(session);
+            Long localUserId = ((Number) usuarioId).longValue();
+
+            return ResponseEntity.ok(steamService.syncUserAchievements(localUserId, steamId));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(Map.of("error", String.valueOf(e.getReason())));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error inesperado al sincronizar logros de Steam"));
         }
-
-        String steamId = requireSteamSession(session);
-        Long localUserId = ((Number) usuarioId).longValue();
-
-        return ResponseEntity.ok(steamService.syncUserAchievements(localUserId, steamId));
     }
 
     @GetMapping("/debug/current")

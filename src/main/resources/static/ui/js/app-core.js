@@ -82,7 +82,7 @@ async function parseErrorResponse(response, fallback) {
 export async function apiGet(url) {
   const response = await fetch(url, { credentials: "same-origin" });
   if (!response.ok) {
-    throw new Error(`Error ${response.status} en ${url}`);
+    throw new Error(await parseErrorResponse(response, `Error ${response.status} en ${url}`));
   }
   return response.json();
 }
