@@ -165,6 +165,22 @@ public class SteamController {
         }
     }
 
+    @GetMapping("/debug/diagnose")
+    @ResponseBody
+    public ResponseEntity<?> debugDiagnose(HttpSession session, @RequestParam(required = false) String steamId) {
+        try {
+            String sid = steamId;
+            if (sid == null || sid.isBlank()) {
+                sid = requireSteamSession(session);
+            }
+            return ResponseEntity.ok(steamService.diagnoseOwnedGames(sid));
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(Map.of("error", String.valueOf(e.getReason())));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Error inesperado al diagnosticar Steam", "detail", String.valueOf(e.getMessage())));
+        }
+    }
+
     private String requireSteamSession(HttpSession session) {
         Object steamId = session.getAttribute("steamId");
         if (steamId == null) {

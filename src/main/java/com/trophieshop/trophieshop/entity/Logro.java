@@ -6,13 +6,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -40,9 +37,8 @@ public class Logro {
     @Column(name = "valor_monedas", nullable = false)
     private Integer valorMonedas;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "videojuego_id", nullable = false)
-    private Videojuego videojuego;
+    @Column(name = "steam_app_id")
+    private Long steamAppId;
 
     @OneToMany(mappedBy = "logro", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
@@ -88,12 +84,12 @@ public class Logro {
         this.valorMonedas = valorMonedas;
     }
 
-    public Videojuego getVideojuego() {
-        return videojuego;
+    public Long getSteamAppId() {
+        return steamAppId;
     }
 
-    public void setVideojuego(Videojuego videojuego) {
-        this.videojuego = videojuego;
+    public void setSteamAppId(Long steamAppId) {
+        this.steamAppId = steamAppId;
     }
 
     public List<LogroDesbloqueado> getDesbloqueos() {

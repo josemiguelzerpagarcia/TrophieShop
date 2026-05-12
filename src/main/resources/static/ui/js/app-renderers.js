@@ -381,8 +381,6 @@ export function findAdminItem(resource, id) {
   const lookup = {
     usuarios: state.users,
     productos: state.products,
-    plataformas: state.platforms,
-    videojuegos: state.games,
     logros: state.achievements,
     canjes: state.orders
   }[resource] || [];
@@ -398,10 +396,8 @@ export function adminLayout(title, body) {
           <a class="btn btn-outline-primary btn-sm" href="/admin/dashboard" data-link>Dashboard</a>
           <a class="btn btn-outline-primary btn-sm" href="/admin/usuarios" data-link>Usuarios</a>
           <a class="btn btn-outline-primary btn-sm" href="/admin/productos" data-link>Productos</a>
-          <a class="btn btn-outline-primary btn-sm" href="/admin/videojuegos" data-link>Videojuegos</a>
           <a class="btn btn-outline-primary btn-sm" href="/admin/logros" data-link>Logros</a>
           <a class="btn btn-outline-primary btn-sm" href="/admin/canjes" data-link>Canjes</a>
-          <a class="btn btn-outline-primary btn-sm" href="/admin/plataformas" data-link>Plataformas</a>
           <a class="btn btn-outline-primary btn-sm" href="/admin/configuracion" data-link>Configuracion</a>
         </nav>
       </div>
@@ -499,40 +495,6 @@ export function renderAdminProductos() {
   );
 }
 
-export function renderAdminVideojuegos() {
-  const editing = isEditingResource("videojuegos") ? state.adminEdit.item : null;
-  return adminLayout(
-    `Admin Videojuegos${adminEditBadge("videojuegos")}`,
-    `
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <form class="card border-0 shadow-sm p-3" id="adminVideojuegosForm" data-resource="videojuegos" data-id="${editing?.id ?? ""}">
-            <h3 class="h6">${editing ? "Editar videojuego" : "Nuevo videojuego"}</h3>
-            <label class="form-label mt-2">Titulo</label>
-            <input class="form-control" name="titulo" value="${safe(editing?.titulo, "")}" required>
-            <label class="form-label mt-2">Usuario</label>
-            <select class="form-select" name="usuarioId" required>
-              <option value="">Selecciona usuario</option>
-              ${optionTags(state.users, (user) => user.id, (user) => `${user.nombre} (${user.rol || "USER"})`, editing?.usuario?.id)}
-            </select>
-            <label class="form-label mt-2">Plataforma</label>
-            <select class="form-select" name="plataformaId" required>
-              <option value="">Selecciona plataforma</option>
-              ${optionTags(state.platforms, (platform) => platform.id, (platform) => platform.nombre, editing?.plataforma?.id)}
-            </select>
-            <label class="form-label mt-2">Steam AppID</label>
-            <input class="form-control" type="number" name="steamAppId" min="0" value="${safe(editing?.steamAppId, "")}">
-            ${adminFormActions("videojuegos")}
-          </form>
-        </div>
-        <div class="col-lg-8">
-          <div class="row g-3">${state.games.map((game) => `<div class="col-md-6"><div class="card border-0 shadow-sm p-3 h-100"><span class="badge badge-soft mb-2">videojuego</span><h3 class="h6">${safe(game.titulo)}</h3><div class="small text-secondary">${safe(game.usuario?.nombre, "Sin usuario")} · ${safe(game.plataforma?.nombre, "Sin plataforma")}</div><div class="small text-secondary">Steam AppID: ${safe(game.steamAppId, "No asignado")}</div><div class="d-flex gap-2 mt-3">${adminRowActions("videojuegos", game)}</div></div></div>`).join("")}</div>
-        </div>
-      </div>
-    `
-  );
-}
-
 export function renderAdminLogros() {
   const editing = isEditingResource("logros") ? state.adminEdit.item : null;
   return adminLayout(
@@ -553,11 +515,8 @@ export function renderAdminLogros() {
             </select>
             <label class="form-label mt-2">Valor monedas</label>
             <input class="form-control" type="number" name="valorMonedas" min="0" value="${safe(editing?.valorMonedas, 0)}" required>
-            <label class="form-label mt-2">Videojuego</label>
-            <select class="form-select" name="videojuegoId" required>
-              <option value="">Selecciona videojuego</option>
-              ${optionTags(state.games, (game) => game.id, (game) => `${game.titulo} (${game.steamAppId || "sin AppID"})`, editing?.videojuego?.id)}
-            </select>
+            <label class="form-label mt-2">Steam App ID</label>
+            <input class="form-control" type="number" name="steamAppId" min="0" value="${safe(editing?.steamAppId, "")}" required>
             ${adminFormActions("logros")}
           </form>
         </div>
@@ -605,28 +564,6 @@ export function renderAdminCanjes() {
   );
 }
 
-export function renderAdminPlataformas() {
-  const editing = isEditingResource("plataformas") ? state.adminEdit.item : null;
-  return adminLayout(
-    `Admin Plataformas${adminEditBadge("plataformas")}`,
-    `
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <form class="card border-0 shadow-sm p-3" id="adminPlataformasForm" data-resource="plataformas" data-id="${editing?.id ?? ""}">
-            <h3 class="h6">${editing ? "Editar plataforma" : "Nueva plataforma"}</h3>
-            <label class="form-label mt-2">Nombre</label>
-            <input class="form-control" name="nombre" value="${safe(editing?.nombre, "")}" required>
-            ${adminFormActions("plataformas")}
-          </form>
-        </div>
-        <div class="col-lg-8">
-          <div class="card border-0 shadow-sm p-3"><ul class="list-group list-group-flush">${state.platforms.map((platform) => `<li class="list-group-item d-flex justify-content-between align-items-center"><span>${safe(platform.nombre)}</span><span class="d-flex gap-2">${adminRowActions("plataformas", platform)}</span></li>`).join("")}</ul></div>
-        </div>
-      </div>
-    `
-  );
-}
-
 export function renderAdminConfig() {
   return adminLayout(
     "Admin Configuracion",
@@ -657,10 +594,5 @@ export function renderDetail(path) {
     );
   }
 
-  const game = state.games.find((item) => String(item.id) === id);
-  if (!game) return shell("Detalle", `<div class="alert alert-secondary border-0">Videojuego no encontrado.</div>`);
-  return shell(
-    "Detalle videojuego",
-    `<div class="card border-0 shadow-sm p-4"><p><strong>Titulo:</strong> ${safe(game.titulo)}</p><p><strong>Plataforma:</strong> ${safe(game.plataforma?.nombre)}</p><p><strong>Usuario:</strong> ${safe(game.usuario?.nombre)}</p><p><strong>Steam AppID:</strong> ${safe(game.steamAppId, "No asignado")}</p></div>`
-  );
+  return shell("Detalle", `<div class="alert alert-secondary border-0">Elemento no encontrado.</div>`);
 }

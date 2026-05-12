@@ -1,5 +1,5 @@
 import { apiDelete, apiPost, apiPut, cancelAdminEdit, fetchSessionUser, loadData, loadSteamData, isAdmin, state, GUEST_ROUTES, USER_ROUTES, ADMIN_ROUTES, startAdminEdit, safe } from "./app-core.js";
-import { adminLayout, findAdminItem, renderAcceso, renderAdminCanjes, renderAdminConfig, renderAdminDashboard, renderAdminLogros, renderAdminPlataformas, renderAdminProductos, renderAdminUsuarios, renderAdminVideojuegos, renderCatalogo, renderDetail, renderForgot, renderHome, renderRegistro, renderUserCanjes, renderUserCarrito, renderUserConfig, renderUserDashboard, renderUserLogros, renderUserPerfil } from "./app-renderers.js";
+import { adminLayout, findAdminItem, renderAcceso, renderAdminCanjes, renderAdminConfig, renderAdminDashboard, renderAdminLogros, renderAdminProductos, renderAdminUsuarios, renderCatalogo, renderDetail, renderForgot, renderHome, renderRegistro, renderUserCanjes, renderUserCarrito, renderUserConfig, renderUserDashboard, renderUserLogros, renderUserPerfil } from "./app-renderers.js";
 
 const app = document.getElementById("app");
 
@@ -94,10 +94,8 @@ function route() {
   else if (path === "/admin/dashboard") app.innerHTML = renderAdminDashboard();
   else if (path === "/admin/usuarios") app.innerHTML = renderAdminUsuarios();
   else if (path === "/admin/productos") app.innerHTML = renderAdminProductos();
-  else if (path === "/admin/videojuegos") app.innerHTML = renderAdminVideojuegos();
   else if (path === "/admin/logros") app.innerHTML = renderAdminLogros();
   else if (path === "/admin/canjes") app.innerHTML = renderAdminCanjes();
-  else if (path === "/admin/plataformas") app.innerHTML = renderAdminPlataformas();
   else if (path === "/admin/configuracion") app.innerHTML = renderAdminConfig();
   else app.innerHTML = adminLayout("404", `<div class="alert alert-danger border-0">Ruta no encontrada.</div>`);
 }
@@ -263,7 +261,7 @@ document.addEventListener("submit", async (event) => {
         payload = {
           nombre: form.get("nombre"),
           email: form.get("email"),
-          password: form.get("password") || undefined,
+          password: form.get("password"),
           rol: form.get("rol"),
           monedasAcumuladas: Number(form.get("monedasAcumuladas") || 0),
           steamId: form.get("steamId") || null,
@@ -291,7 +289,7 @@ document.addEventListener("submit", async (event) => {
           descripcion: form.get("descripcion"),
           tipo: form.get("tipo"),
           valorMonedas: Number(form.get("valorMonedas") || 0),
-          videojuegoId: Number(form.get("videojuegoId") || 0)
+          steamAppId: Number(form.get("steamAppId") || 0)
         };
       } else if (resource === "canjes") {
         payload = {

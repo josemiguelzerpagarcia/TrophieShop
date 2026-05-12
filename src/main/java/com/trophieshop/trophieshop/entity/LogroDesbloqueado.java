@@ -9,11 +9,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "logros_desbloqueados")
+@Table(
+    name = "logros_desbloqueados",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_usuario_logro_desbloqueado", columnNames = {"usuario_id", "logro_id"})
+    }
+)
 public class LogroDesbloqueado {
 
     @Id
@@ -30,9 +36,6 @@ public class LogroDesbloqueado {
 
     @Column(name = "fecha_desbloqueo", nullable = false)
     private LocalDateTime fechaDesbloqueo = LocalDateTime.now();
-
-    @Column(name = "monedas_otorgadas", nullable = false)
-    private Integer monedasOtorgadas;
 
     public Long getId() {
         return id;
@@ -64,13 +67,5 @@ public class LogroDesbloqueado {
 
     public void setFechaDesbloqueo(LocalDateTime fechaDesbloqueo) {
         this.fechaDesbloqueo = fechaDesbloqueo;
-    }
-
-    public Integer getMonedasOtorgadas() {
-        return monedasOtorgadas;
-    }
-
-    public void setMonedasOtorgadas(Integer monedasOtorgadas) {
-        this.monedasOtorgadas = monedasOtorgadas;
     }
 }

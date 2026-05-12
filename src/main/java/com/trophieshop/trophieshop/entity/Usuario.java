@@ -1,6 +1,7 @@
 package com.trophieshop.trophieshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class Usuario {
     private String email;
 
     @Column(nullable = false, length = 255)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(name = "monedas_acumuladas", nullable = false)
@@ -43,12 +45,8 @@ public class Usuario {
     @Column(name = "steam_persona_name", length = 120)
     private String steamPersonaName;
 
-    @Column(name = "fecha_registro", nullable = false)
+    @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro = LocalDateTime.now();
-
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnore
-    private List<Videojuego> videojuegos = new ArrayList<>();
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
@@ -132,14 +130,6 @@ public class Usuario {
 
     public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
-    }
-
-    public List<Videojuego> getVideojuegos() {
-        return videojuegos;
-    }
-
-    public void setVideojuegos(List<Videojuego> videojuegos) {
-        this.videojuegos = videojuegos;
     }
 
     public List<Canje> getCanjes() {

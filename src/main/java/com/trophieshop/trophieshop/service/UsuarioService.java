@@ -28,6 +28,15 @@ public class UsuarioService {
     }
 
     public Usuario create(Usuario usuario) {
+        if (usuario.getNombre() == null || usuario.getNombre().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre es requerido");
+        }
+        if (usuario.getEmail() == null || usuario.getEmail().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El email es requerido");
+        }
+        if (usuario.getPassword() == null || usuario.getPassword().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La contraseña es requerida");
+        }
         if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Ya existe un usuario con ese email");
         }
@@ -36,6 +45,9 @@ public class UsuarioService {
         }
         if (usuario.getRol() == null || usuario.getRol().isBlank()) {
             usuario.setRol("USER");
+        }
+        if (usuario.getFechaRegistro() == null) {
+            usuario.setFechaRegistro(java.time.LocalDateTime.now());
         }
         return usuarioRepository.save(usuario);
     }
@@ -55,8 +67,9 @@ public class UsuarioService {
 
     @Transactional
     public void delete(Long id) {
-        Usuario usuario = findById(id);
-
-        usuarioRepository.delete(usuario);
+        if (!usuarioRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado");
+        }
+        usuarioRepository.deleteById(id);
     }
 }

@@ -3,24 +3,23 @@ package com.trophieshop.trophieshop.config;
 import com.trophieshop.trophieshop.entity.Canje;
 import com.trophieshop.trophieshop.entity.Logro;
 import com.trophieshop.trophieshop.entity.LogroDesbloqueado;
-import com.trophieshop.trophieshop.entity.Plataforma;
 import com.trophieshop.trophieshop.entity.ProductoMerchandising;
 import com.trophieshop.trophieshop.entity.Usuario;
-import com.trophieshop.trophieshop.entity.Videojuego;
 import com.trophieshop.trophieshop.entity.enums.TipoLogro;
 import com.trophieshop.trophieshop.repository.CanjeRepository;
 import com.trophieshop.trophieshop.repository.LogroDesbloqueadoRepository;
 import com.trophieshop.trophieshop.repository.LogroRepository;
-import com.trophieshop.trophieshop.repository.PlataformaRepository;
 import com.trophieshop.trophieshop.repository.ProductoMerchandisingRepository;
 import com.trophieshop.trophieshop.repository.UsuarioRepository;
-import com.trophieshop.trophieshop.repository.VideojuegoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Clase para inicializar la base de datos automáticamente
@@ -28,6 +27,28 @@ import java.util.List;
  */
 @Configuration
 public class DatabaseInitializer {
+
+    private static final Logger logger = LoggerFactory.getLogger(DatabaseInitializer.class);
+
+    private boolean columnExists(JdbcTemplate jdbcTemplate, String table, String column) {
+        Integer count = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?",
+                Integer.class,
+                table,
+                column
+        );
+        return count != null && count > 0;
+    }
+
+    private boolean uniqueConstraintExists(JdbcTemplate jdbcTemplate, String table, String indexName) {
+        Integer count = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND INDEX_NAME = ?",
+                Integer.class,
+                table,
+                indexName
+        );
+        return count != null && count > 0;
+    }
 
     /**
      * Verifica la conexión a la base de datos y ejecuta consultas iniciales
@@ -39,9 +60,7 @@ public class DatabaseInitializer {
     public CommandLineRunner initializeDatabase(
             JdbcTemplate jdbcTemplate,
             UsuarioRepository usuarioRepository,
-            PlataformaRepository plataformaRepository,
             ProductoMerchandisingRepository productoRepository,
-            VideojuegoRepository videojuegoRepository,
             LogroRepository logroRepository,
             LogroDesbloqueadoRepository logroDesbloqueadoRepository,
             CanjeRepository canjeRepository) {
@@ -49,7 +68,44 @@ public class DatabaseInitializer {
             try {
                 // Verificar la conexión a la base de datos
                 jdbcTemplate.queryForObject("SELECT 1", String.class);
-                System.out.println("✓ Conexión a la base de datos establecida correctamente");
+                logger.info("✓ Conexión a la base de datos establecida correctamente");
+
+                // Migracion real de esquema: logros_desbloqueados sin monedas_otorgadas
+                try {
+                    if (columnExists(jdbcTemplate, "logros_desbloqueados", "monedas_otorgadas")) {
+                        jdbcTemplate.execute("ALTER TABLE logros_desbloqueados DROP COLUMN monedas_otorgadas");
+                        logger.info("✓ Columna logros_desbloqueados.monedas_otorgadas eliminada");
+                    }
+                } catch (Exception e) {
+                    logger.warn("⚠ No se pudo eliminar columna monedas_otorgadas (podría no existir): {}", e.getMessage());
+                }
+
+                // Limpiar posibles duplicados antes de crear el índice único
+                try {
+                    int deleted = jdbcTemplate.update("""
+                            DELETE ld1 FROM logros_desbloqueados ld1
+                            INNER JOIN logros_desbloqueados ld2
+                              ON ld1.usuario_id = ld2.usuario_id
+                             AND ld1.logro_id = ld2.logro_id
+                             AND ld1.id > ld2.id
+                            """);
+                    if (deleted > 0) {
+                        logger.info("✓ Eliminados {} registros duplicados en logros_desbloqueados", deleted);
+                    }
+                } catch (Exception e) {
+                    logger.warn("⚠ No se pudo limpiar duplicados: {}", e.getMessage());
+                }
+
+                try {
+                    if (!uniqueConstraintExists(jdbcTemplate, "logros_desbloqueados", "uk_usuario_logro_desbloqueado")) {
+                        jdbcTemplate.execute("ALTER TABLE logros_desbloqueados ADD CONSTRAINT uk_usuario_logro_desbloqueado UNIQUE (usuario_id, logro_id)");
+                        logger.info("✓ Restricción única uk_usuario_logro_desbloqueado creada");
+                    } else {
+                        logger.info("✓ Restricción única uk_usuario_logro_desbloqueado ya existe");
+                    }
+                } catch (Exception e) {
+                    logger.warn("⚠ No se pudo crear restricción única: {}", e.getMessage());
+                }
 
                 // Tabla para evitar otorgar puntos duplicados en sincronizaciones de Steam
                 jdbcTemplate.execute("""
@@ -69,8 +125,55 @@ public class DatabaseInitializer {
                         )
                         """);
 
+                // Migración: Eliminar tabla videojuegos (datos vienen de Steam API)
+                try {
+                    Integer count = jdbcTemplate.queryForObject(
+                        "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'videojuegos'",
+                        Integer.class
+                    );
+                    if (count != null && count > 0) {
+                        try {
+                            // Buscar y dropear cualquier FK que referencia videojuegos
+                            List<Map<String, Object>> fks = jdbcTemplate.queryForList(
+                                "SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'logros' AND REFERENCED_TABLE_NAME = 'videojuegos'"
+                            );
+                            for (Map<String, Object> fk : fks) {
+                                String constraintName = (String) fk.get("CONSTRAINT_NAME");
+                                jdbcTemplate.execute("ALTER TABLE logros DROP FOREIGN KEY " + constraintName);
+                            }
+                        } catch (Exception e) {
+                            logger.debug("No foreign keys to drop from logros table");
+                        }
+                        
+                        try {
+                            jdbcTemplate.execute("ALTER TABLE logros DROP COLUMN videojuego_id");
+                        } catch (Exception e) {
+                            logger.debug("Column videojuego_id might not exist");
+                        }
+                        
+                        jdbcTemplate.execute("DROP TABLE videojuegos");
+                        logger.info("✓ Tabla videojuegos eliminada (datos de Steam API)");
+                    }
+                } catch (Exception e) {
+                    logger.debug("⚠ Tabla videojuegos no existe o no se pudo eliminar: {}", e.getMessage());
+                }
+
+                // Migración: Eliminar tabla plataformas (no necesaria, todo por Steam)
+                try {
+                    Integer plataformasCount = jdbcTemplate.queryForObject(
+                        "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plataformas'",
+                        Integer.class
+                    );
+                    if (plataformasCount != null && plataformasCount > 0) {
+                        jdbcTemplate.execute("DROP TABLE plataformas");
+                        logger.info("✓ Tabla plataformas eliminada (datos de Steam API)");
+                    }
+                } catch (Exception e) {
+                    logger.debug("⚠ Tabla plataformas no existe o no se pudo eliminar: {}", e.getMessage());
+                }
+
                 if (usuarioRepository.count() > 0) {
-                    System.out.println("✓ Datos ya existentes: se omite el seed inicial");
+                    logger.info("✓ Datos ya existentes: se omite el seed inicial");
                     return;
                 }
 
@@ -98,17 +201,6 @@ public class DatabaseInitializer {
 
                 usuarioRepository.saveAll(List.of(admin, user, user2));
 
-                Plataforma ps5 = new Plataforma();
-                ps5.setNombre("PlayStation 5");
-
-                Plataforma pc = new Plataforma();
-                pc.setNombre("PC");
-
-                Plataforma xbox = new Plataforma();
-                xbox.setNombre("Xbox Series X");
-
-                plataformaRepository.saveAll(List.of(ps5, pc, xbox));
-
                 ProductoMerchandising camiseta = new ProductoMerchandising();
                 camiseta.setNombre("Camiseta TrophyShop");
                 camiseta.setDescripcion("Camiseta oficial de la tienda");
@@ -129,58 +221,36 @@ public class DatabaseInitializer {
 
                 productoRepository.saveAll(List.of(camiseta, taza, gorra));
 
-                Videojuego game1 = new Videojuego();
-                game1.setTitulo("The Last Chronicle");
-                game1.setUsuario(user);
-                game1.setPlataforma(ps5);
-                game1.setSteamAppId(730L);
-
-                Videojuego game2 = new Videojuego();
-                game2.setTitulo("Cyber Legends");
-                game2.setUsuario(user2);
-                game2.setPlataforma(pc);
-                game2.setSteamAppId(570L);
-
-                Videojuego game3 = new Videojuego();
-                game3.setTitulo("Racing Pro 2026");
-                game3.setUsuario(admin);
-                game3.setPlataforma(xbox);
-                game3.setSteamAppId(440L);
-
-                videojuegoRepository.saveAll(List.of(game1, game2, game3));
-
                 Logro logro1 = new Logro();
                 logro1.setNombre("Primer Trofeo");
                 logro1.setDescripcion("Desbloquea tu primer logro");
                 logro1.setTipo(TipoLogro.APLICACION);
                 logro1.setValorMonedas(100);
-                logro1.setVideojuego(game1);
+                logro1.setSteamAppId(730L);
 
                 Logro logro2 = new Logro();
                 logro2.setNombre("Coleccionista");
                 logro2.setDescripcion("Completa 10 retos");
                 logro2.setTipo(TipoLogro.PLATAFORMA);
                 logro2.setValorMonedas(250);
-                logro2.setVideojuego(game2);
+                logro2.setSteamAppId(570L);
 
                 Logro logro3 = new Logro();
                 logro3.setNombre("Velocidad Extrema");
                 logro3.setDescripcion("Gana 3 carreras seguidas");
                 logro3.setTipo(TipoLogro.APLICACION);
                 logro3.setValorMonedas(180);
-                logro3.setVideojuego(game3);
+                logro3.setSteamAppId(440L);
 
                 logroRepository.saveAll(List.of(logro1, logro2, logro3));
 
                 LogroDesbloqueado desbloqueado1 = new LogroDesbloqueado();
                 desbloqueado1.setUsuario(user);
                 desbloqueado1.setLogro(logro1);
-                desbloqueado1.setMonedasOtorgadas(logro1.getValorMonedas());
 
                 LogroDesbloqueado desbloqueado2 = new LogroDesbloqueado();
                 desbloqueado2.setUsuario(user2);
                 desbloqueado2.setLogro(logro2);
-                desbloqueado2.setMonedasOtorgadas(logro2.getValorMonedas());
 
                 logroDesbloqueadoRepository.saveAll(List.of(desbloqueado1, desbloqueado2));
 
@@ -198,12 +268,11 @@ public class DatabaseInitializer {
 
                 canjeRepository.saveAll(List.of(canje1, canje2));
 
-                System.out.println("✓ Seed inicial creado correctamente");
-                System.out.println("  - Admin: admin@trophieshop.com / admin1234");
-                System.out.println("  - User: user@trophieshop.com / user1234");
+                logger.info("✓ Seed inicial creado correctamente");
+                logger.info("  - Admin: admin@trophieshop.com / admin1234");
+                logger.info("  - User: user@trophieshop.com / user1234");
             } catch (Exception e) {
-                System.err.println("✗ Error al conectar con la base de datos: " + e.getMessage());
-                e.printStackTrace();
+                logger.error("✗ Error al conectar con la base de datos: {}", e.getMessage(), e);
             }
         };
     }

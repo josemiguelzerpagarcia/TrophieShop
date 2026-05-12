@@ -44,10 +44,13 @@ public class LogroDesbloqueadoService {
         Logro logro = logroRepository.findById(logroId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Logro no encontrado"));
 
+        if (desbloqueadoRepository.existsByUsuarioIdAndLogroId(usuarioId, logroId)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Este logro ya fue desbloqueado para el usuario");
+        }
+
         LogroDesbloqueado desbloqueado = new LogroDesbloqueado();
         desbloqueado.setUsuario(usuario);
         desbloqueado.setLogro(logro);
-        desbloqueado.setMonedasOtorgadas(logro.getValorMonedas());
 
         usuario.setMonedasAcumuladas(usuario.getMonedasAcumuladas() + logro.getValorMonedas());
         usuarioRepository.save(usuario);

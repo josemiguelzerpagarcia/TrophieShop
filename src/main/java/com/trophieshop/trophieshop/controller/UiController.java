@@ -1,11 +1,19 @@
 package com.trophieshop.trophieshop.controller;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UiController {
+
+    @GetMapping("/favicon.ico")
+    @ResponseBody
+    public ResponseEntity<Void> favicon() {
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping({"/", "/catalogo", "/catalago", "/detalle/{tipo}/{id}", "/acceso", "/olvide-password"})
     public String guestPages() {
@@ -20,7 +28,7 @@ public class UiController {
         return "forward:/ui/user.html";
     }
 
-    @GetMapping({"/admin", "/admin/dashboard", "/admin/usuarios", "/admin/productos", "/admin/videojuegos", "/admin/logros", "/admin/canjes", "/admin/plataformas", "/admin/configuracion"})
+    @GetMapping({"/admin", "/admin/dashboard", "/admin/usuarios", "/admin/productos", "/admin/logros", "/admin/canjes", "/admin/configuracion"})
     public String adminPages(HttpSession session) {
         if (session.getAttribute("usuarioId") == null) {
             return "redirect:/acceso";

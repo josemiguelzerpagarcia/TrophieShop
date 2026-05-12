@@ -2,11 +2,9 @@ export const state = {
   sessionUser: null,
   users: [],
   products: [],
-  games: [],
   achievements: [],
   unlockedAchievements: [],
   orders: [],
-  platforms: [],
   steamProfile: null,
   steamLibrary: [],
   steamSyncResult: null,
@@ -31,10 +29,8 @@ export const ADMIN_ROUTES = new Set([
   "/admin/dashboard",
   "/admin/usuarios",
   "/admin/productos",
-  "/admin/videojuegos",
   "/admin/logros",
   "/admin/canjes",
-  "/admin/plataformas",
   "/admin/configuracion"
 ]);
 
@@ -172,25 +168,27 @@ export async function loadData() {
   state.error = "";
 
   try {
-    const [users, products, games, achievements, unlocked, orders, platforms] = await Promise.all([
+    const requests = [
       apiGet("/api/usuarios"),
       apiGet("/api/productos"),
-      apiGet("/api/videojuegos"),
       apiGet("/api/logros"),
       apiGet("/api/logros-desbloqueados"),
-      apiGet("/api/canjes"),
-      apiGet("/api/plataformas")
-    ]);
+      apiGet("/api/canjes")
+    ];
 
-    state.users = Array.isArray(users) ? users : [];
-    state.products = Array.isArray(products) ? products : [];
-    state.games = Array.isArray(games) ? games : [];
-    state.achievements = Array.isArray(achievements) ? achievements : [];
-    state.unlockedAchievements = Array.isArray(unlocked) ? unlocked : [];
-    state.orders = Array.isArray(orders) ? orders : [];
-    state.platforms = Array.isArray(platforms) ? platforms : [];
-  } catch (error) {
-    state.error = error.message || "No se pudieron cargar los datos";
+    const [users, products, achievements, unlocked, orders] = await Promise.allSettled(requests);
+
+    state.users = users.status === "fulfilled" && Array.isArray(users.value) ? users.value : [];
+    state.products = products.status === "fulfilled" && Array.isArray(products.value) ? products.value : [];
+    state.achievements = achievements.status === "fulfilled" && Array.isArray(achievements.value) ? achievements.value : [];
+    state.unlockedAchievements = unlocked.status === "fulfilled" && Array.isArray(unlocked.value) ? unlocked.value : [];
+    state.orders = orders.status === "fulfilled" && Array.isArray(orders.value) ? orders.value : [];
+
+    const allFailed = [users, products, achievements, unlocked, orders]
+      .every((result) => result.status === "rejected");
+    if (allFailed) {
+      state.error = "No se pudo conectar con la API";
+    }
   } finally {
     state.loading = false;
   }
