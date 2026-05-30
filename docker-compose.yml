@@ -1,0 +1,40 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: trophieshop-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: trophieshop
+      MYSQL_USER: trophieshop
+      MYSQL_PASSWORD: trophieshop
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trophieshop-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SERVER_PORT: 8989
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/trophieshop?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=CONVERT_TO_NULL
+      SPRING_DATASOURCE_USERNAME: trophieshop
+      SPRING_DATASOURCE_PASSWORD: trophieshop
+    ports:
+      - "8989:8989"
+
+volumes:
+  mysql-data:

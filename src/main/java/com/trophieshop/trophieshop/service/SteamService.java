@@ -142,7 +142,7 @@ public class SteamService {
         try {
             primary = fetchJson("https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key={key}&steamid={steamId}&include_appinfo=1&include_played_free_games=1", steamApiKey, steamId);
         } catch (Exception ignored) {
-            // Try legacy endpoint below.
+            
         }
 
         List<Map<String, Object>> games = extractOwnedGames(primary);

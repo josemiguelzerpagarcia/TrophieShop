@@ -68,16 +68,16 @@ public class DatabaseInitializer {
             try {
                 // Verificar la conexión a la base de datos
                 jdbcTemplate.queryForObject("SELECT 1", String.class);
-                logger.info("✓ Conexión a la base de datos establecida correctamente");
+                logger.info("Conexión a la base de datos establecida correctamente");
 
                 // Migracion real de esquema: logros_desbloqueados sin monedas_otorgadas
                 try {
                     if (columnExists(jdbcTemplate, "logros_desbloqueados", "monedas_otorgadas")) {
                         jdbcTemplate.execute("ALTER TABLE logros_desbloqueados DROP COLUMN monedas_otorgadas");
-                        logger.info("✓ Columna logros_desbloqueados.monedas_otorgadas eliminada");
+                        logger.info("Conexión a la base de datos establecida correctamente");
                     }
                 } catch (Exception e) {
-                    logger.warn("⚠ No se pudo eliminar columna monedas_otorgadas (podría no existir): {}", e.getMessage());
+                    logger.warn("No se pudo eliminar columna monedas_otorgadas (podría no existir): {}", e.getMessage());
                 }
 
                 // Limpiar posibles duplicados antes de crear el índice único
@@ -90,21 +90,21 @@ public class DatabaseInitializer {
                              AND ld1.id > ld2.id
                             """);
                     if (deleted > 0) {
-                        logger.info("✓ Eliminados {} registros duplicados en logros_desbloqueados", deleted);
+                        logger.info("Eliminados {} registros duplicados en logros_desbloqueados", deleted);
                     }
                 } catch (Exception e) {
-                    logger.warn("⚠ No se pudo limpiar duplicados: {}", e.getMessage());
+                    logger.warn("No se pudo limpiar duplicados: {}", e.getMessage());
                 }
 
                 try {
                     if (!uniqueConstraintExists(jdbcTemplate, "logros_desbloqueados", "uk_usuario_logro_desbloqueado")) {
                         jdbcTemplate.execute("ALTER TABLE logros_desbloqueados ADD CONSTRAINT uk_usuario_logro_desbloqueado UNIQUE (usuario_id, logro_id)");
-                        logger.info("✓ Restricción única uk_usuario_logro_desbloqueado creada");
+                        logger.info("Restricción única uk_usuario_logro_desbloqueado creada");
                     } else {
-                        logger.info("✓ Restricción única uk_usuario_logro_desbloqueado ya existe");
+                        logger.info("Restricción única uk_usuario_logro_desbloqueado ya existe");
                     }
                 } catch (Exception e) {
-                    logger.warn("⚠ No se pudo crear restricción única: {}", e.getMessage());
+                    logger.warn("No se pudo crear restricción única: {}", e.getMessage());
                 }
 
                 // Tabla para evitar otorgar puntos duplicados en sincronizaciones de Steam
@@ -152,10 +152,10 @@ public class DatabaseInitializer {
                         }
                         
                         jdbcTemplate.execute("DROP TABLE videojuegos");
-                        logger.info("✓ Tabla videojuegos eliminada (datos de Steam API)");
+                        logger.info("Tabla videojuegos eliminada (datos de Steam API)");
                     }
                 } catch (Exception e) {
-                    logger.debug("⚠ Tabla videojuegos no existe o no se pudo eliminar: {}", e.getMessage());
+                    logger.debug("Tabla videojuegos no existe o no se pudo eliminar: {}", e.getMessage());
                 }
 
                 // Migración: Eliminar tabla plataformas (no necesaria, todo por Steam)
@@ -166,14 +166,14 @@ public class DatabaseInitializer {
                     );
                     if (plataformasCount != null && plataformasCount > 0) {
                         jdbcTemplate.execute("DROP TABLE plataformas");
-                        logger.info("✓ Tabla plataformas eliminada (datos de Steam API)");
+                        logger.info("Tabla plataformas eliminada (datos de Steam API)");
                     }
                 } catch (Exception e) {
-                    logger.debug("⚠ Tabla plataformas no existe o no se pudo eliminar: {}", e.getMessage());
+                    logger.debug("Tabla plataformas no existe o no se pudo eliminar: {}", e.getMessage());
                 }
 
                 if (usuarioRepository.count() > 0) {
-                    logger.info("✓ Datos ya existentes: se omite el seed inicial");
+                    logger.info("Datos ya existentes: se omite el seed inicial");
                     return;
                 }
 
@@ -268,11 +268,9 @@ public class DatabaseInitializer {
 
                 canjeRepository.saveAll(List.of(canje1, canje2));
 
-                logger.info("✓ Seed inicial creado correctamente");
-                logger.info("  - Admin: admin@trophieshop.com / admin1234");
-                logger.info("  - User: user@trophieshop.com / user1234");
+                logger.info("Seed inicial creado correctamente");
             } catch (Exception e) {
-                logger.error("✗ Error al conectar con la base de datos: {}", e.getMessage(), e);
+                logger.error("Error al conectar con la base de datos: {}", e.getMessage(), e);
             }
         };
     }
